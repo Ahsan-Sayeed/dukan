@@ -69,13 +69,13 @@ const Sheet = (props: Props) => {
     }, [state])
 
     useEffect(() => {
-        fetch('http://localhost:4000/analytics')
+        fetch('https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/analytics')
             .then((e) => e.json())
             .then(e => setData(e))
             .catch(err => {
                 alert('Something went wrong, Contact developer')
             })
-        fetch('http://localhost:4000/spreadsheet')
+        fetch('https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/spreadsheet')
             .then((e) => e.json())
             .then(e => setNewData(e))
             .catch(err => {
@@ -86,7 +86,7 @@ const Sheet = (props: Props) => {
 
     const handleSubmit = () => {
         // setNewData((prev) => [...prev, state])
-        fetch('http://localhost:4000/spreadsheet', {
+        fetch('https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/spreadsheet', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -107,7 +107,7 @@ const Sheet = (props: Props) => {
 
     const handleDelete = (id: string) => {
         // setData((prev) => prev.filter((v) => v._id !== id));
-        fetch(`http://localhost:4000/spreadsheet/${id}`, {
+        fetch(`https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/spreadsheet/${id}`, {
             method: 'DELETE',
         })
             .then(e => {
@@ -138,7 +138,7 @@ const Sheet = (props: Props) => {
 
     const handleSaveToDB = (data: Data) => {
         const concatData = { ...data, sellerUID: users?.uid, sellerName: users?.displayName, sellerEmail: users?.email }
-        fetch('http://localhost:4000/history', {
+        fetch('https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/history', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -148,7 +148,7 @@ const Sheet = (props: Props) => {
             .then(e => {
                 if (e.status === 200) {
                     //refetch
-                    fetch(`http://localhost:4000/history`, {
+                    fetch(`https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/history`, {
                         method: 'DELETE',
                     })
                         .then(e => {
@@ -170,23 +170,33 @@ const Sheet = (props: Props) => {
 
     }
 
+
     return (
         <div className="overflow-x-auto min-w-screen border rounded-xl ms-5 bg-base-100">
 
+            <form className='flex justify-around pb-2 pt-4 text-white text-xs bg-neutral border-b-2'>
+                <label htmlFor="">Customer:
+                    <input className='w-32 ms-1 border-b-2 bg-neutral' type="text" placeholder="Type here..." name='customer' onChange={handleCustomer} />
+                </label>
+                <label htmlFor="">Phone:
+                    <input className='w-32 ms-1 border-b-2 bg-neutral' type="number" placeholder="Type here..." name='phone' onChange={handleCustomer} />
+                </label>
+                <label htmlFor=""> Address:
+                    <input className='w-32 ms-1 border-b-2 bg-neutral' type="text" placeholder="Type here..." name='address' onChange={handleCustomer} />
+                </label>
 
-            <form className='inline'>
-                <input className='border border-primary w-32' type="text" placeholder="customer name" name='customer' onChange={handleCustomer} />
-                <input className='border border-primary w-32' type="number" placeholder="phone" name='phone' onChange={handleCustomer} />
-                <input className='border border-primary w-32' type="text" placeholder="Address" name='address' onChange={handleCustomer} />
-
-                <input type="radio" id="ck" name="radio" value='paid' onChange={() => setIsDue(true)} />
-                <label htmlFor="ck">Paid</label>
-                <input type="radio" id="ck2" name="radio" value="due" onChange={() => setIsDue(false)} />
-                <label htmlFor="ck2">Due</label>
-                <input className='border border-primary w-16' type="number" placeholder="Amount" disabled={isDue} onChange={(e) => setDue(Number(e.target.value))} />
+                <div className='flex items-center'>
+                    <input type="radio" id="ck" name="radio" value='paid' onChange={() => setIsDue(true)} />
+                    <label htmlFor="ck" className='me-1'>Paid</label>
+                    <input type="radio" id="ck2" name="radio" value="due" onChange={() => setIsDue(false)} />
+                    <label htmlFor="ck2" className='me-1'>Due</label>
+                    <input className={`${isDue && 'hidden'} w-32 ms-1 border-b-2 bg-neutral`} type="number" placeholder="Amount" disabled={isDue} onChange={(e) => setDue(Number(e.target.value))} />
+                </div>
                 {/* <label htmlFor="my_modal_6" className="btn btn-xs" typeof='submit'>Export</label> */}
-                <input type="checkbox" id="checkbox" name="checkbox" value="courier " onChange={() => setCourier(!courier)} />
-                <label htmlFor="checkbox"> Courier </label>
+                <div className='flex items-center'>
+                    <input type="checkbox" id="checkbox" name="checkbox" value="courier " onChange={() => setCourier(!courier)} />
+                    <label htmlFor="checkbox"> Courier </label>
+                </div>
             </form>
 
             <table className="table table-xs">
@@ -243,8 +253,9 @@ const Sheet = (props: Props) => {
                         })
                     }
 
-                    <th className='btn w-full btn-primary' onClick={handleSubmit}>Add item</th>
                     <th></th>
+                    <th><button className='btn btn-xs w-full btn-primary my-2'
+                        onClick={handleSubmit}>Add item</button></th>
                     <th></th>
                     <th></th>
                     <th></th>

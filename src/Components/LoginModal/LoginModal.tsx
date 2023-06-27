@@ -40,7 +40,7 @@ const LoginModal = (props: Props) => {
                     if (user && user?.uid) {
                         router.push('/spreadsheet');
                         // console.log(user);
-                        fetch('http://localhost:4000/users', {
+                        fetch('https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/users', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -109,7 +109,7 @@ const LoginModal = (props: Props) => {
                         <label className="label">
                             <span className="label-text">Email</span>
                         </label>
-                        <input type="email" placeholder="email" className="input input-bordered" name='email' required />
+                        <input type="email" placeholder="email" className="input input-bordered text-black" name='email' required />
                     </div>
                     <div className="form-control">
                         <label className="label">
@@ -135,9 +135,9 @@ const LoginModal = (props: Props) => {
                             <button className="btn btn-outline mt-2"><FcGoogle size={22} /> Google</button>
                         </div>
                     } */}
-                    <span className="label-text-alt link link-hover" onClick={() => setRegistrar(!registrar)}>
+                    {/* <span className="label-text-alt link link-hover" onClick={() => setRegistrar(!registrar)}>
                         {registrar ? "Already have an account? Login." : "Don't have an account? Registrar."}
-                    </span>
+                    </span> */}
                 </form>
             </div>
             <ToastContainer

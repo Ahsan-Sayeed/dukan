@@ -1,6 +1,7 @@
+import { AuthContext } from '@/app/Context/store'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 type Props = {
     showName: boolean
@@ -21,15 +22,15 @@ const menuItems = {
         <svg stroke="currentColor" key={4} fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11 4h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6h-4v-4h4v4zM17 3c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2zM7 13c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z"></path></svg>,
         "Categories"
     ],
-    collections: [
+    history: [
         <svg stroke="currentColor" key={5} fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M19 10H5c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2v-8c0-1.103-.897-2-2-2zM5 20v-8h14l.002 8H5zM5 6h14v2H5zm2-4h10v2H7z"></path></svg>,
         "History"
     ],
     users: [
-        <svg stroke="currentColor"  key={6} fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M12 14V16C8.68629 16 6 18.6863 6 22H4C4 17.5817 7.58172 14 12 14ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13ZM12 11C14.21 11 16 9.21 16 7C16 4.79 14.21 3 12 3C9.79 3 8 4.79 8 7C8 9.21 9.79 11 12 11ZM14.5946 18.8115C14.5327 18.5511 14.5 18.2794 14.5 18C14.5 17.7207 14.5327 17.449 14.5945 17.1886L13.6029 16.6161L14.6029 14.884L15.5952 15.4569C15.9883 15.0851 16.4676 14.8034 17 14.6449V13.5H19V14.6449C19.5324 14.8034 20.0116 15.0851 20.4047 15.4569L21.3971 14.8839L22.3972 16.616L21.4055 17.1885C21.4673 17.449 21.5 17.7207 21.5 18C21.5 18.2793 21.4673 18.551 21.4055 18.8114L22.3972 19.3839L21.3972 21.116L20.4048 20.543C20.0117 20.9149 19.5325 21.1966 19.0001 21.355V22.5H17.0001V21.3551C16.4677 21.1967 15.9884 20.915 15.5953 20.5431L14.603 21.1161L13.6029 19.384L14.5946 18.8115ZM18 19.5C18.8284 19.5 19.5 18.8284 19.5 18C19.5 17.1716 18.8284 16.5 18 16.5C17.1716 16.5 16.5 17.1716 16.5 18C16.5 18.8284 17.1716 19.5 18 19.5Z"></path></svg>,
+        <svg stroke="currentColor" key={6} fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M12 14V16C8.68629 16 6 18.6863 6 22H4C4 17.5817 7.58172 14 12 14ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13ZM12 11C14.21 11 16 9.21 16 7C16 4.79 14.21 3 12 3C9.79 3 8 4.79 8 7C8 9.21 9.79 11 12 11ZM14.5946 18.8115C14.5327 18.5511 14.5 18.2794 14.5 18C14.5 17.7207 14.5327 17.449 14.5945 17.1886L13.6029 16.6161L14.6029 14.884L15.5952 15.4569C15.9883 15.0851 16.4676 14.8034 17 14.6449V13.5H19V14.6449C19.5324 14.8034 20.0116 15.0851 20.4047 15.4569L21.3971 14.8839L22.3972 16.616L21.4055 17.1885C21.4673 17.449 21.5 17.7207 21.5 18C21.5 18.2793 21.4673 18.551 21.4055 18.8114L22.3972 19.3839L21.3972 21.116L20.4048 20.543C20.0117 20.9149 19.5325 21.1966 19.0001 21.355V22.5H17.0001V21.3551C16.4677 21.1967 15.9884 20.915 15.5953 20.5431L14.603 21.1161L13.6029 19.384L14.5946 18.8115ZM18 19.5C18.8284 19.5 19.5 18.8284 19.5 18C19.5 17.1716 18.8284 16.5 18 16.5C17.1716 16.5 16.5 17.1716 16.5 18C16.5 18.8284 17.1716 19.5 18 19.5Z"></path></svg>,
         "Users"
     ],
-    spreadSheet:[
+    spreadSheet: [
         <svg stroke="currentColor" key={7} fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5v2zM3 12v-2h2v2H3zm0 1h2v2H4a1 1 0 0 1-1-1v-1zm3 2v-2h3v2H6zm4 0v-2h3v1a1 1 0 0 1-1 1h-2zm3-3h-3v-2h3v2zm-7 0v-2h3v2H6z"></path></svg>,
         "Spreadsheet"
     ]
@@ -38,6 +39,19 @@ const menuItems = {
 
 const NavRoute = ({ showName }: Props) => {
     const pathname = usePathname();
+    const { users } = useContext(AuthContext);
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        fetch(`https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/users/${users?.uid}`)
+            .then((e) => e.json())
+            .then(e => setIsAdmin(e[0]?.role === 'admin'))
+            .catch(err => {
+                alert('Something went wrong, Contact developer')
+            })
+
+    }, [])
+
 
     return (
         <>
@@ -47,18 +61,24 @@ const NavRoute = ({ showName }: Props) => {
             {/* <li className={pathname === '/users' ? "border rounded-lg bg-neutral text-white" : ''}>
                 <Link href="/users">{showName ? menuItems.users : menuItems.users[0]}</Link>
             </li> */}
-            <li className={pathname === '/analysis' ? "border rounded-lg bg-neutral text-white" : ''}>
-                <Link href="/analysis">{showName ? menuItems.analysis : menuItems.analysis[0]}</Link>
-            </li>
+            {
+                isAdmin && <li className={pathname === '/analysis' ? "border rounded-lg bg-neutral text-white" : ''}>
+                    <Link href="/analysis">{showName ? menuItems.analysis : menuItems.analysis[0]}</Link>
+                </li>
+            }
+
             <li className={pathname === '/spreadsheet' ? "border rounded-lg bg-neutral text-white" : ''}>
                 <Link href="/spreadsheet">{showName ? menuItems.spreadSheet : menuItems.spreadSheet[0]}</Link>
             </li>
             {/* <li className="">
                 <a>{showName ? menuItems.orders : menuItems.orders[0]}</a>
             </li> */}
-            <li className="">
-                <a>{showName ? menuItems.collections : menuItems.collections[0]}</a>
-            </li>
+            {
+                isAdmin && <li className="">
+                    <a>{showName ? menuItems.history : menuItems.history[0]}</a>
+                </li>
+            }
+
             {/* <li className="">
                 <a>{showName ? menuItems.categories : menuItems.categories[0]}</a>
             </li> */}

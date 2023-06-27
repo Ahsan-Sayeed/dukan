@@ -42,7 +42,7 @@ const AnalysisTable = (props: Props) => {
     }
 
     useEffect(() => {
-        fetch('http://localhost:4000/analytics')
+        fetch('https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/analytics')
             .then((e) => e.json())
             .then(e => setData(e))
             .catch(err => {
@@ -52,7 +52,7 @@ const AnalysisTable = (props: Props) => {
 
     const handleSubmit = () => {
         // setData(() => [...data, state])
-        fetch('http://localhost:4000/analytics', {
+        fetch('https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/analytics', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ const AnalysisTable = (props: Props) => {
 
     const handleDelete = (id: string) => {
         // setData((prev) => prev.filter((v) => v._id !== id));
-        fetch(`http://localhost:4000/analytics/${id}`, {
+        fetch(`https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/analytics/${id}`, {
             method: 'DELETE',
         })
             .then(e => {
