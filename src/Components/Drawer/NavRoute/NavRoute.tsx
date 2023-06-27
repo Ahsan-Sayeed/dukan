@@ -47,7 +47,8 @@ const NavRoute = ({ showName }: Props) => {
             .then((e) => e.json())
             .then(e => setIsAdmin(e[0]?.role === 'admin'))
             .catch(err => {
-                alert('Load fail, Contact developer')
+                // alert('Load fail, Contact developer')
+                return <h1>Loading...</h1>
             })
 
     }, [])
