@@ -8,7 +8,7 @@ type Props = {
 }
 
 const Loading = ({ children }: Props) => {
-  const { loading, users }: { loading: boolean, user: object | undefined } = useContext(AuthContext);
+  const { loading, users } = useContext(AuthContext);
   const pathname = usePathname();
 
   // console.log(users);
@@ -24,7 +24,7 @@ const Loading = ({ children }: Props) => {
   }
 
   if (users && users.uid) {
-    router.push(pathname!=='/'?pathname:'/dashboard')
+    router.push(pathname!=='/'?pathname:'/spreadsheet')
     return (
       <>{children}</>
     )

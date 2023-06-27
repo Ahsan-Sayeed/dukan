@@ -29,9 +29,9 @@ const UserList = ({data,setUser,selectUser}: Props) => {
                     {/* row 1 */}
 
                     {
-                        data.map(v => {
+                        data.map((v,idx) => {
                             return (
-                                <tr className={`hover:bg-base-300 ${data.indexOf(v)===selectUser&&"bg-base-300"}`} onClick={()=>setUser(data.indexOf(v))}>
+                                <tr key={idx} className={`hover:bg-base-300 ${data.indexOf(v)===selectUser&&"bg-base-300"}`} onClick={()=>setUser(data.indexOf(v))}>
                                     <td>
                                         <div className="flex items-center space-x-3">
                                             <div className="avatar">

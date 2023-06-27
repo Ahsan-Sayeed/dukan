@@ -16,7 +16,7 @@ const Card = (props: Props) => {
                 <h2 className="stat-title">Card title!</h2>
                 <div className='flex items-center'>
                     <p className='stat-value text-secondary'>12</p>
-                    {pathname === '/users' && <div className="radial-progress text-primary" style={{ "--value": 70 }}>70%</div>}
+                    {pathname === '/users' && <div className="radial-progress text-primary">70%</div>}
                 </div>
                 <div className="card-actions flex flex-col">
                     <div className="stat-desc flex items-center">

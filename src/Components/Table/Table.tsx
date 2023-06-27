@@ -89,7 +89,7 @@ const Table = (props: Props) => {
                         <th>8</th>
                         <td>Sammy Seston</td>
                         <td>Accountant I</td>
-                        <td>O'Hara, Welch and Keebler</td>
+                        <td>OHara, Welch and Keebler</td>
                         <td>Indonesia</td>
                         <td>5/23/2020</td>
                         <td>Crimson</td>

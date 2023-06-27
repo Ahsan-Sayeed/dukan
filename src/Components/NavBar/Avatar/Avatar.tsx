@@ -8,8 +8,8 @@ const Avatar = (props: Props) => {
 
     const { logOut } = useContext(AuthContext);
 
-    const handleSignOut = (event: React.MouseEvent<HTMLButtonElement>) => {
-        logOut().then(() => {
+    const handleSignOut = () => {
+        logOut?.().then(() => {
             console.log('log out success');
         })
             .catch((error: string) => {

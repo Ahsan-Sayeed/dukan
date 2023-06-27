@@ -5,6 +5,7 @@ import React, { useContext, useState } from 'react';
 import { FcGoogle } from "react-icons/fc";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {User} from 'firebase/auth';
 
 type Props = {}
 
@@ -12,9 +13,9 @@ type Props = {}
 const LoginModal = (props: Props) => {
     const { createUser, signInUser } = useContext(AuthContext);
     const [registrar, setRegistrar] = useState<boolean | null | undefined>(false);
-    const [isError,setIsError] = useState<boolean>(false);
+    const [isError, setIsError] = useState<boolean>(false);
 
-    const notify = (v:string) => toast.error(v, {
+    const notify = (v: string) => toast.error(v, {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -30,15 +31,31 @@ const LoginModal = (props: Props) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const { firstName, lastName, email, password } = e.target;
+        const { firstName, lastName, email, password } = e.target as any;
         // console.log(firstName?.value,lastName?.value,email.value,password.value);
         if (firstName?.value || lastName?.value) {
             // console.log(firstName.value,lastName.value,email.value,password.value);
-            createUser(email.value, password.value)
-                .then(({ user }) => {
+            createUser?.(email.value, password.value)
+                .then(({ user }:{user:User}) => {
                     if (user && user?.uid) {
-                        router.push('/dashboard');
-                        console.log('user created', user);
+                        router.push('/spreadsheet');
+                        // console.log(user);
+                        fetch('http://localhost:4000/users', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ email: user.email, uid: user.uid })
+                        })
+                            .then(e => {
+                                if (e.status === 200) {
+                                    //refetch
+                                    alert('succesfully seller account created');
+                                }
+                            })
+                            .catch(err => {
+                                alert('Something went wrong, Contact developer')
+                            })
                     }
                     else {
                         notify("Something went wrong");
@@ -50,11 +67,11 @@ const LoginModal = (props: Props) => {
                 })
         }
         else {
-            signInUser(email.value, password.value)
-                .then(({ user }) => {
+            signInUser?.(email.value, password.value)
+                .then(({ user }:{user:User}) => {
                     if (user && user?.uid) {
                         //login success
-                        router.push('/dashboard');
+                        router.push('/spreadsheet');
                         console.log('login success');
                     }
                     else {
@@ -98,7 +115,7 @@ const LoginModal = (props: Props) => {
                         <label className="label">
                             <span className="label-text">Password</span>
                         </label>
-                        <input type="password" placeholder="password" className={`input input-bordered ${isError&&'input-error'}`} name='password' required />
+                        <input type="password" placeholder="password" className={`input input-bordered ${isError && 'input-error'}`} name='password' required />
                         {!registrar && <label className="label">
                             <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                         </label>}
