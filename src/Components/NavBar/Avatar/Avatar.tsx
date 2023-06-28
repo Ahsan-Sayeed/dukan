@@ -1,12 +1,13 @@
 "use client"
 import { AuthContext } from '@/app/Context/store'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 type Props = {}
 
 const Avatar = (props: Props) => {
 
-    const { logOut } = useContext(AuthContext);
+    const { logOut,users } = useContext(AuthContext);
+    const [email,setEmail] = useState<string | null>('');
 
     const handleSignOut = () => {
         logOut?.().then(() => {
@@ -16,6 +17,13 @@ const Avatar = (props: Props) => {
                 alert('something went wrong');
             })
     }
+
+    useEffect(() => {
+        if (users && users?.uid) {
+            setEmail(users?.email);
+        }
+
+    }, [users])
 
     return (
         <div className="dropdown dropdown-end">
@@ -28,6 +36,7 @@ const Avatar = (props: Props) => {
                 <li>
                     {/* <a className="justify-between text-black my-2">Profile</a> */}
                 </li>
+                <span className='text-black text-xs'>{email}</span>
                 {/* <li><a className='text-black'>Settings</a></li> */}
                 <li><a className='border border-primary text-black my-2' onClick={handleSignOut}>Logout</a></li>
             </ul>
