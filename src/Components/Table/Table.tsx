@@ -6,19 +6,19 @@ const Table = (props: Props) => {
     return (
         <div className='card lg:me-3 mt-5 overflow-x-auto bg-base-100 shadow-xl' >
         <div className="card-body">
-          <h2 className="card-title">Card title!</h2>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
+          <h2 className="card-title">Recent Sell</h2>
+          <p>Recent sell from Jan 01 to Jan 15</p>
         <div >
             <table className="table table-xs">
                 <thead>
                     <tr className="bg-base-200">
                         <th></th>
-                        <th>Name</th>
-                        <th>Job</th>
-                        <th>company</th>
-                        <th>location</th>
-                        <th>Last Login</th>
-                        <th>Favorite Color</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Profit</th>
+                        <th>Time/Date</th>
+                        <th>Rating</th>
                     </tr>
                 </thead>
                 <tbody>

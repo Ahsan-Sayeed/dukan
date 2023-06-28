@@ -5,10 +5,10 @@ type Props = {}
 
 const PiChart = (props: Props) => {
     return (
-        <div className='card border lg:ms-3 mt-5 bg-base-100 shadow-xl'>
+        <div className='card lg:ms-3 mt-5 bg-base-100 shadow-xl'>
             <div className="card-body">
-                <h2 className="card-title">Card title!</h2>
-                <p>If a dog chews shoes whose shoes does he choose?</p>
+                <h2 className="card-title">Top Sell</h2>
+                <p>Top sell product from Jan 01 to Feb 01</p>
                 <div className='flex justify-center'>
                     <PieChart width={300} height={250} className='border'>
                         <Pie data={data01} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" />
