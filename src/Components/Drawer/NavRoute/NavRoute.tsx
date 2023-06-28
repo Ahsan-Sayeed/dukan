@@ -43,15 +43,18 @@ const NavRoute = ({ showName }: Props) => {
     const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
-        fetch(`https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/users/${users?.uid}`)
-            .then((e) => e.json())
-            .then(e => setIsAdmin(e[0]?.role === 'admin'))
-            .catch(err => {
-                // alert('Load fail, Contact developer')
-                return <h1>Loading...</h1>
-            })
+        if (users && users?.uid) {
+            fetch(`https://dukan-server.vercel.app/users/${users?.uid}`)
+                .then((e) => e.json())
+                .then(e => {
+                    return setIsAdmin(e.role === 'admin')})
+                .catch(err => {
+                    alert('Load fail, Contact developer')
+                })
+        }
 
-    }, [])
+    }, [users])
+
 
 
     return (
