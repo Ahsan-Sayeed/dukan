@@ -39,10 +39,10 @@ const UsersContainer = (props: Props) => {
     return (
         <div className='mx-5 my-2'>
             <div className='lg:flex justify-center mt-5 '>
-                    <Card></Card>
-                    <Card></Card>
-                    <Card></Card>
-                    <Card></Card>
+                    <Card pro={"Total Sell"}></Card>
+                    <Card pro='Available'></Card>
+                    <Card pro='Net Worth'></Card>
+                    <Card pro='Net Profit'></Card>
             </div>
 
             <div className='my-10'>
