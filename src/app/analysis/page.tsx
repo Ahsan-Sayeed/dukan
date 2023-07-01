@@ -8,7 +8,7 @@ type Props = {}
 const analysis = (props: Props) => {
 
   return (
-    <div className='bg-base-200 text-black'>
+    <div>
       <Drawer>
         <div className='w-full'>
           <h1 className='text-4xl subpixel-antialiased font-sans font-thin m-5'>Analysis</h1>

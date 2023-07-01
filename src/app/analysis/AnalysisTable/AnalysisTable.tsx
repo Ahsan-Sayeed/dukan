@@ -1,3 +1,4 @@
+import { url } from '@/config/backendConfig';
 import React, { useEffect, useState } from 'react'
 
 type Props = {
@@ -43,7 +44,7 @@ const AnalysisTable = (props: Props) => {
     }
 
     useEffect(() => {
-        fetch('https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/analytics')
+        fetch(`${url}analytics`)
             .then((e) => e.json())
             .then(e => setData(e))
             .catch(err => {
@@ -53,7 +54,7 @@ const AnalysisTable = (props: Props) => {
 
     const handleSubmit = () => {
         // setData(() => [...data, state])
-        fetch('https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/analytics', {
+        fetch(`${url}analytics`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -74,7 +75,7 @@ const AnalysisTable = (props: Props) => {
 
     const handleDelete = (id: string) => {
         // setData((prev) => prev.filter((v) => v._id !== id));
-        fetch(`https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/analytics/${id}`, {
+        fetch(`${url}analytics/${id}`, {
             method: 'DELETE',
         })
             .then(e => {

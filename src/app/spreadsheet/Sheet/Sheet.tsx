@@ -2,6 +2,7 @@ import { User } from 'firebase/auth'
 import React, { useState, useEffect, useContext } from 'react'
 import Modal, { MyDocument } from './Modal/Modal';
 import { AuthContext } from '@/app/Context/store';
+import { url } from '@/config/backendConfig';
 
 type Props = {}
 
@@ -69,13 +70,13 @@ const Sheet = (props: Props) => {
     }, [state])
 
     useEffect(() => {
-        fetch('https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/analytics')
+        fetch(`${url}analytics`)
             .then((e) => e.json())
             .then(e => setData(e))
             .catch(err => {
                 alert('Something went wrong, Contact developer')
             })
-        fetch('https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/spreadsheet')
+        fetch(`${url}spreadsheet?uid=${users?.uid}`)
             .then((e) => e.json())
             .then(e => setNewData(e))
             .catch(err => {
@@ -86,12 +87,12 @@ const Sheet = (props: Props) => {
 
     const handleSubmit = () => {
         // setNewData((prev) => [...prev, state])
-        fetch('https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/spreadsheet', {
+        fetch(`${url}spreadsheet`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(state)
+            body: JSON.stringify({...state,uid:users?.uid})
         })
             .then(e => {
                 if (e.status === 200) {
@@ -107,7 +108,7 @@ const Sheet = (props: Props) => {
 
     const handleDelete = (id: string) => {
         // setData((prev) => prev.filter((v) => v._id !== id));
-        fetch(`https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/spreadsheet/${id}`, {
+        fetch(`${url}spreadsheet/${id}`, {
             method: 'DELETE',
         })
             .then(e => {
@@ -138,7 +139,8 @@ const Sheet = (props: Props) => {
 
     const handleSaveToDB = (data: Data) => {
         const concatData = { ...data, sellerUID: users?.uid, sellerName: users?.displayName, sellerEmail: users?.email }
-        fetch('https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/history', {
+
+        fetch(`${url}history`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -148,7 +150,7 @@ const Sheet = (props: Props) => {
             .then(e => {
                 if (e.status === 200) {
                     //refetch
-                    fetch(`https://dukan-server-daiu7oxok-ahsan-sayeed.vercel.app/history`, {
+                    fetch(`${url}history`, {
                         method: 'DELETE',
                     })
                         .then(e => {

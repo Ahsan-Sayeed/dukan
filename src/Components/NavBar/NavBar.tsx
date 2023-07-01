@@ -7,14 +7,14 @@ type Props = {}
 
 const NavBar = (props: Props) => {
   return (
-    <div className="navbar">
+    <div className="navbar glass shadow-xl">
       <div className="flex-1">
         <a className="btn btn-ghost normal-case text-xl">MFP</a>
       </div>
       <div className="flex-none">
-          {/* <SearchBar /> */}
-          {/* <NotificationBar /> */}
-          <Avatar/>
+        {/* <SearchBar /> */}
+        {/* <NotificationBar /> */}
+        <Avatar />
       </div>
     </div>
   )

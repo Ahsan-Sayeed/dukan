@@ -23,7 +23,7 @@ const menuItems = {
         "Categories"
     ],
     history: [
-        <svg stroke="currentColor" key={5} fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M19 10H5c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2v-8c0-1.103-.897-2-2-2zM5 20v-8h14l.002 8H5zM5 6h14v2H5zm2-4h10v2H7z"></path></svg>,
+        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M11.998 2.5A9.503 9.503 0 0 0 3.378 8H5.75a.75.75 0 0 1 0 1.5H2a1 1 0 0 1-1-1V4.75a.75.75 0 0 1 1.5 0v1.697A10.997 10.997 0 0 1 11.998 1C18.074 1 23 5.925 23 12s-4.926 11-11.002 11C6.014 23 1.146 18.223 1 12.275a.75.75 0 0 1 1.5-.037 9.5 9.5 0 0 0 9.498 9.262c5.248 0 9.502-4.253 9.502-9.5s-4.254-9.5-9.502-9.5Z"></path><path d="M12.5 7.25a.75.75 0 0 0-1.5 0v5.5c0 .27.144.518.378.651l3.5 2a.75.75 0 0 0 .744-1.302L12.5 12.315V7.25Z"></path></svg>,
         "History"
     ],
     users: [
@@ -78,8 +78,8 @@ const NavRoute = ({ showName }: Props) => {
                 <a>{showName ? menuItems.orders : menuItems.orders[0]}</a>
             </li> */}
             {
-                isAdmin && <li className="">
-                    <a>{showName ? menuItems.history : menuItems.history[0]}</a>
+                isAdmin && <li className={pathname === '/history' ? "border rounded-lg bg-neutral text-white" : ''}>
+                    <Link href="/history">{showName ? menuItems.history : menuItems.history[0]}</Link>
                 </li>
             }
 

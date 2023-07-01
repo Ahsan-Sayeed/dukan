@@ -7,7 +7,7 @@ type Props = {}
 
 const spreadsheet = (props: Props) => {
   return (
-    <div className='bg-base-200 text-black'>
+    <div>
       <Drawer>
         <div className='w-full'>
           <h1 className='text-4xl subpixel-antialiased font-sans font-thin m-5'>Spreadsheet</h1>

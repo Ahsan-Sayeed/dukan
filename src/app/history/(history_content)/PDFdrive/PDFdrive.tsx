@@ -1,66 +1,31 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import ReactPDF, { Page, Text, View, Document, StyleSheet, PDFDownloadLink, PDFViewer, Image } from '@react-pdf/renderer';
 
 type Props = {
-    newData: {
-        productId: string,
-        productName: string,
-        quantity: number,
-        totalPrice: number
-        unit: string,
-        __v: number,
-        _id: string
-    }[],
-    due: number,
-    customerDetails: {
-        customer: string,
+    history: {
+        address: string,
+        courier: boolean
+        customerName: string
+        date: string
+        due: number,
         phone: string,
-        address: string
-    },
-    displayName: string | null | undefined,
-    courier: boolean,
-    handleSaveToDB: (args:Data) => void
-}
-
-type Data = {
-    products: {
-        productId: string,
-        productName: string,
-        quantity: number,
-        totalPrice: number
-        unit: string,
+        products: {
+            productId: string,
+            productName: string,
+            quantity: number,
+            totalPrice: number
+            unit: string,
+            __v: number,
+            _id: string
+        }[],
+        sellerEmail: string,
+        sellerName?: string | null
+        sellerUID: string
+        totalPrice: number,
         __v: number,
         _id: string
     }[],
-    date:string,
-    customerName:string,
-    due: number,
-    phone:string,
-    address: string,
-    totalPrice:number,
-    courier: boolean,
-}
-
-const Modal = ({ newData, due, customerDetails, displayName, courier, handleSaveToDB }: Props) => {
-    const Dt = new Date();
-    // console.log(newData);
-    const data = { products: newData, date: Dt.toLocaleDateString(), customerName: customerDetails.customer, phone: customerDetails.phone, address: customerDetails.address, totalPrice: newData.map((v, i) => v.totalPrice).reduce((accumulator, currentValue) => accumulator + currentValue, 0), due, courier, };
-    
-    return (
-        <div className='w-full flex justify-center'>
-            <div className="">
-                <div className="py-4 border">
-                    <PDFViewer width="1300" height="600" className="app" >
-                        <MyDocument handleSaveToDB={handleSaveToDB} newData={newData} due={due} customerDetails={customerDetails} displayName={displayName} courier={courier} />
-                    </PDFViewer>
-                </div>
-                <PDFDownloadLink document={<MyDocument handleSaveToDB={handleSaveToDB} newData={newData} due={due} customerDetails={customerDetails} displayName={displayName} courier={courier} />} fileName='Form'
-                    onClick={() => handleSaveToDB(data)}>
-                    <div className='btn btn-error text-white flex mb-20'>Save & Download</div>
-                </PDFDownloadLink>
-            </div>
-        </div>
-    )
+    inx: number
 }
 
 const styles = StyleSheet.create({
@@ -98,15 +63,7 @@ const styles = StyleSheet.create({
     }
 });
 
-export const MyDocument = ({ newData, due, customerDetails, displayName, courier }: Props) => {
-    const [total, setTotal] = useState(0);
-
-    useEffect(() => {
-        setTotal(newData.map((v, i) => v.totalPrice).reduce((accumulator, currentValue) => accumulator + currentValue, 0))
-    }, [newData]);
-
-    const date = new Date();
-
+const PDFdrive = ({ history, inx }: Props) => {
     return (
         <Document>
             <Page>
@@ -127,13 +84,13 @@ export const MyDocument = ({ newData, due, customerDetails, displayName, courier
                             {/* <Text style={{ fontSize: 10 }}>Invoive/Bill</Text> */}
                             <View style={{ borderWidth: 1, borderStyle: 'solid' }}>
                                 {/* <Text style={{ fontSize: 10, borderWidth: 1, borderStyle: 'solid', padding:2 }}>NO: 857461654</Text> */}
-                                <Text style={{ fontSize: 10, borderWidth: 1, borderStyle: 'solid', padding: 2 }}>Date: {date.toLocaleDateString()}</Text>
+                                <Text style={{ fontSize: 10, borderWidth: 1, borderStyle: 'solid', padding: 2 }}>Date: {history[inx]?.date}</Text>
                             </View>
                         </View>
                     </View>
 
                     <View>
-                        <Text style={[{ fontSize: 10}, {marginLeft: 45, marginBottom: 6 }]}>Customer: {customerDetails.customer}      Phone: {customerDetails.phone}      Address: {customerDetails.address}     salesman: {displayName ? displayName : 'N/A'}</Text>
+                        <Text style={[{ fontSize: 10 }, { marginLeft: 45, marginBottom: 6 }]}>Customer: {history[inx]?.customerName}      Phone: {history[inx]?.phone}      Address: {history[inx]?.address}     salesman: {history[inx]?.sellerName == ''?history[inx]?.sellerName:"N/A"}</Text>
                     </View>
 
                     <View style={styles.tableRow}>
@@ -151,30 +108,31 @@ export const MyDocument = ({ newData, due, customerDetails, displayName, courier
                         </View>
                     </View>
 
-                    {newData.map((v, idx) => {
+                    {history[inx]?.products?.map((v, idx) => {
+                        // console.log(v)
                         return (<View style={styles.tableRow} key={idx}>
                             <View style={{ width: "10%", borderStyle: "solid", borderWidth: 1 }}>
                                 <Text style={styles.tableCell}>{idx + 1}</Text>
                             </View>
                             <View style={styles.tableCol}>
-                                <Text style={styles.tableCell}>{v.productName}</Text>
+                                <Text style={styles.tableCell}>{v?.productName}</Text>
                             </View>
                             <View style={styles.tableCol}>
-                                <Text style={styles.tableCell}>{v.quantity} {v.unit}</Text>
+                                <Text style={styles.tableCell}>{v?.quantity} {v?.unit}</Text>
                             </View>
                             <View style={styles.tableCol}>
-                                <Text style={styles.tableCell}>{v.totalPrice}</Text>
+                                <Text style={styles.tableCell}>{v?.totalPrice}</Text>
                             </View>
                         </View>)
                     })}
 
                     <View style={{ width: "auto", marginLeft: 45 }}>
                         <View style={{ width: '92%', borderStyle: "solid", borderWidth: 1, paddingRight: 60, height: 60, display: 'flex', justifyContent: 'center' }}>
-                            <Text style={{ textAlign: 'right', fontSize: 10 }}>Total Price:   {total}</Text>
+                            <Text style={{ textAlign: 'right', fontSize: 10 }}>Total Price:   {history[inx]?.totalPrice}</Text>
                         </View>
                     </View>
                     <View>
-                        <Text style={{ textAlign: 'right', fontSize: 10, marginRight: 50, marginTop: 6 }}>{courier && "Courier"} Paid: {total - due} Due: {due}</Text>
+                        <Text style={{ textAlign: 'right', fontSize: 10, marginRight: 50, marginTop: 6 }}>{ "Courier"} Paid: {history[inx]?.totalPrice-history[inx]?.due} Due: {history[inx]?.due}</Text>
                     </View>
 
                     <View>
@@ -185,7 +143,8 @@ export const MyDocument = ({ newData, due, customerDetails, displayName, courier
                     </View>
                 </View>
             </Page>
-        </Document>)
+        </Document>
+    )
 }
 
-export default Modal
+export default PDFdrive
