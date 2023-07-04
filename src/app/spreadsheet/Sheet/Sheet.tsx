@@ -150,7 +150,7 @@ const Sheet = (props: Props) => {
             .then(e => {
                 if (e.status === 200) {
                     //refetch
-                    fetch(`${url}history`, {
+                    fetch(`${url}spreadsheet`, {
                         method: 'DELETE',
                     })
                         .then(e => {
