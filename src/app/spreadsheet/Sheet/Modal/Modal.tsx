@@ -207,7 +207,7 @@ export const MyDocument = ({ newData, due, courierData, getDate, customerDetails
                     </View>
                     <View>
                         <Text style={{ textAlign: 'right', fontSize: 10, marginRight: 50, marginTop: 6 }}> Paid: {newData?.map((v, i) => v?.qu?.map((vc, id) => vc.price).reduce((a, b) => a + b, 0)).reduce((x, y) => x + y, 0) - due} Due: {due}</Text>
-                        <Text style={{ textAlign: 'right', fontSize: 10, marginRight: 50, marginTop: 6 }}>{courier && 'Courier Service: ' + courierData}</Text>
+                        <Text style={{ textAlign: 'right', fontSize: 10, marginRight: 50, marginTop: 6 , fontFamily: 'Tiro Bangla, serif'}}>{courier && 'Courier Service: ' + courierData}</Text>
                     </View>
 
                     <View>

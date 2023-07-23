@@ -55,7 +55,7 @@ const NavRoute = ({ showName }: Props) => {
                     return setIsAdmin(e.role === 'admin')
                 })
                 .catch(err => {
-                    alert('Load fail, Contact developer / navigation route')
+                   console.log(err);
                 })
         }
 

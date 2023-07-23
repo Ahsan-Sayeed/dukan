@@ -44,9 +44,9 @@ const HistoryTable = ({ history }: Props) => {
             <div className='border rounded-xl bg-base-100 md:mx-5 mt-5 shadow-xl border'>
                 <div className="overflow-x-auto">
                     <table className="table table-xs">
-                        <thead>
+                        <thead className='text-center'>
                             <tr>
-                                <th></th>
+                                <th>SL</th>
                                 <th>Customer</th>
                                 <th>Phone</th>
                                 <th>Due</th>
@@ -90,7 +90,7 @@ const HistoryTable = ({ history }: Props) => {
                                 )
                             })}
                         </tbody>
-                        <tfoot>
+                        <tfoot className='text-center'>
                             <tr>
                                 <th></th>
                                 <th>Customer</th>
