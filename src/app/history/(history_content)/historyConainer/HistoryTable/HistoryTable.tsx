@@ -5,27 +5,29 @@ import { PDFDownloadLink } from '@react-pdf/renderer'
 
 type Props = {
     history: {
-        address: string,
-        courier: boolean
-        customerName: string
-        date: string
-        due: number,
-        phone: string,
-        products: {
-            productId: string,
-            productName: string,
-            quantity: number,
-            totalPrice: number
-            unit: string,
-            __v: number,
-            _id: string
-        }[],
-        sellerEmail: string,
-        sellerName?: string | null
-        sellerUID: string
-        totalPrice: number,
-        __v: number,
         _id: string
+        products: [{
+            productName: string,
+            qu: [{
+                unit: string,
+                qty: number,
+                price: number
+            }],
+            uid: string,
+            _id: string
+        }],
+        date: string,
+        customerName: string,
+        phone: string,
+        address: string,
+        totalPrice: number,
+        due: number,
+        courier: boolean,
+        courierData: string,
+        sellerUID: string,
+        sellerName: string,
+        sellerEmail: string,
+        time: number,
     }[]
 }
 
@@ -49,6 +51,7 @@ const HistoryTable = ({ history }: Props) => {
                                 <th>Phone</th>
                                 <th>Due</th>
                                 <th>Paid</th>
+                                <th>Courier</th>
                                 <th>Date</th>
                                 <th>Actions</th>
                             </tr>
@@ -62,6 +65,14 @@ const HistoryTable = ({ history }: Props) => {
                                         <td>{v?.phone}</td>
                                         <td>{v?.due}</td>
                                         <td>{v?.totalPrice - v?.due}</td>
+                                        <td>
+                                            {
+                                                v?.courier?
+                                                <span className='text-red-500 font-bold text-center'>{v?.courierData===undefined?'N/A':((v?.courierData)?.split('').slice(0,5).join('')+"..")}</span>
+                                                :
+                                                <span className='text-red-500 font-bold text-center'>N/A</span>
+                                            }
+                                        </td>
                                         <td>{v?.date}</td>
                                         <td>
                                             <button className='p-2'>
@@ -86,6 +97,7 @@ const HistoryTable = ({ history }: Props) => {
                                 <th>Phone</th>
                                 <th>Due</th>
                                 <th>Paid</th>
+                                <th>Courier</th>
                                 <th>Date</th>
                                 <th>Actions</th>
                             </tr>

@@ -4,27 +4,29 @@ import PDFdrive from '../../../PDFdrive/PDFdrive'
 
 type Props = {
     history: {
-        address: string,
-        courier: boolean
-        customerName: string
-        date: string
-        due: number,
-        phone: string,
-        products: {
-            productId: string,
+        _id:string
+        products: [{
             productName: string,
-            quantity: number,
-            totalPrice: number
-            unit: string,
-            __v: number,
+            qu: [{
+                unit: string,
+                qty: number,
+                price: number
+            }],
+            uid: string,
             _id: string
-        }[],
-        sellerEmail: string,
-        sellerName?: string | null
-        sellerUID: string
+        }],
+        date: string,
+        customerName: string,
+        phone: string,
+        address: string,
         totalPrice: number,
-        __v: number,
-        _id: string
+        due: number,
+        courier: boolean,
+        courierData: string,
+        sellerUID: string,
+        sellerName: string,
+        sellerEmail: string,
+        time: number,
     }[],
     inx: number
 }

@@ -1,0 +1,10 @@
+table{
+    width: 100%;
+}
+td {
+    border:1px solid black;
+    text-align: center;
+  }
+.onHoverRed:hover{
+    color:red;
+} 

@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import ReactPDF, { Page, Text, View, Document, StyleSheet, PDFDownloadLink, PDFViewer, Image } from '@react-pdf/renderer';
+import ReactPDF, { Page, Text, View, Document, StyleSheet, PDFDownloadLink, PDFViewer, Image, Font } from '@react-pdf/renderer';
+
 
 type Props = {
     newData: {
-        productId: string,
         productName: string,
-        quantity: number,
-        totalPrice: number
-        unit: string,
-        __v: number,
-        _id: string
+        qu: {
+            unit: string,
+            qty: number,
+            price: number
+        }[],
+        uid: String,
+        _v?: number
     }[],
     due: number,
     customerDetails: {
@@ -19,42 +21,56 @@ type Props = {
     },
     displayName: string | null | undefined,
     courier: boolean,
-    handleSaveToDB: (args:Data) => void
+    handleSaveToDB: (args: any) => void,
+    courierData: string,
+    getDate: string
 }
 
 type Data = {
     products: {
-        productId: string,
         productName: string,
-        quantity: number,
-        totalPrice: number
-        unit: string,
-        __v: number,
+        qu: {
+            unit: string,
+            qty: number,
+            price: number
+        }[],
+        uid: string,
+        _v?: number,
         _id: string
     }[],
-    date:string,
-    customerName:string,
-    due: number,
-    phone:string,
-    address: string,
-    totalPrice:number,
-    courier: boolean,
+    date: string | undefined,
+    customerName: string | undefined,
+    due: number | undefined,
+    phone: string | undefined,
+    address: string | undefined,
+    totalPrice: number | undefined,
+    courier: boolean | undefined,
+    courierData: string
 }
 
-const Modal = ({ newData, due, customerDetails, displayName, courier, handleSaveToDB }: Props) => {
-    const Dt = new Date();
-    // console.log(newData);
-    const data = { products: newData, date: Dt.toLocaleDateString(), customerName: customerDetails.customer, phone: customerDetails.phone, address: customerDetails.address, totalPrice: newData.map((v, i) => v.totalPrice).reduce((accumulator, currentValue) => accumulator + currentValue, 0), due, courier, };
-    
+const Modal = ({ newData, due, customerDetails, displayName, courier, courierData, getDate, handleSaveToDB }: Props) => {
+
+    const data:Data = {
+        products: newData as [],
+        date: getDate,
+        customerName: customerDetails.customer,
+        phone: customerDetails.phone,
+        address: customerDetails.address,
+        totalPrice: newData?.map((v, i) => v.qu.map((vc, id) => vc.price).reduce((a, b) => a + b, 0)).reduce((x, y) => x + y, 0),
+        due,
+        courier,
+        courierData
+    };
+
     return (
         <div className='w-full flex justify-center'>
-            <div className="">
+            <div>
                 <div className="py-4 border">
                     <PDFViewer width="1300" height="600" className="app" >
-                        <MyDocument handleSaveToDB={handleSaveToDB} newData={newData} due={due} customerDetails={customerDetails} displayName={displayName} courier={courier} />
+                        <MyDocument handleSaveToDB={handleSaveToDB} getDate={getDate} courierData={courierData} newData={newData} due={due} customerDetails={customerDetails} displayName={displayName} courier={courier} />
                     </PDFViewer>
                 </div>
-                <PDFDownloadLink document={<MyDocument handleSaveToDB={handleSaveToDB} newData={newData} due={due} customerDetails={customerDetails} displayName={displayName} courier={courier} />} fileName='Form'
+                <PDFDownloadLink document={<MyDocument handleSaveToDB={handleSaveToDB} getDate={getDate} courierData={courierData} newData={newData} due={due} customerDetails={customerDetails} displayName={displayName} courier={courier} />} fileName='Form'
                     onClick={() => handleSaveToDB(data)}>
                     <div className='btn btn-error text-white flex mb-20'>Save & Download</div>
                 </PDFDownloadLink>
@@ -63,10 +79,20 @@ const Modal = ({ newData, due, customerDetails, displayName, courier, handleSave
     )
 }
 
+
+Font.register({
+    family: 'Tiro Bangla, serif',
+    src: 'https://cdn.jsdelivr.net/gh/Ahsan-Sayeed/banglaFont@d18e50db13819bccaeb2c47081773953fee0abfa/unicode.ttf'
+    //   'https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@01ff0283e4f36e159ffbf744b36e16ef742da6d8/Subset/SpoqaHanSans/SpoqaHanSansLight.ttf',
+});
+
 const styles = StyleSheet.create({
     // body:{
     //     marginRight:60
     // },
+    korean: {
+        fontFamily: 'Tiro Bangla, serif',
+    },
     table: {
         // display: "table",
         width: "auto",
@@ -83,7 +109,7 @@ const styles = StyleSheet.create({
 
     },
     tableCol: {
-        width: "25%",
+        width: "20%",
         borderStyle: "solid",
         borderWidth: 1,
         // borderLeftWidth: 0,
@@ -95,17 +121,11 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginBottom: 5,
         fontSize: 10,
+        fontFamily: 'Tiro Bangla, serif',
     }
 });
 
-export const MyDocument = ({ newData, due, customerDetails, displayName, courier }: Props) => {
-    const [total, setTotal] = useState(0);
-
-    useEffect(() => {
-        setTotal(newData.map((v, i) => v.totalPrice).reduce((accumulator, currentValue) => accumulator + currentValue, 0))
-    }, [newData]);
-
-    const date = new Date();
+export const MyDocument = ({ newData, due, courierData, getDate, customerDetails, displayName, courier }: Props) => {
 
     return (
         <Document>
@@ -127,54 +147,67 @@ export const MyDocument = ({ newData, due, customerDetails, displayName, courier
                             {/* <Text style={{ fontSize: 10 }}>Invoive/Bill</Text> */}
                             <View style={{ borderWidth: 1, borderStyle: 'solid' }}>
                                 {/* <Text style={{ fontSize: 10, borderWidth: 1, borderStyle: 'solid', padding:2 }}>NO: 857461654</Text> */}
-                                <Text style={{ fontSize: 10, borderWidth: 1, borderStyle: 'solid', padding: 2 }}>Date: {date.toLocaleDateString()}</Text>
+                                <Text style={{ fontSize: 10, borderWidth: 1, borderStyle: 'solid', padding: 2 }}>Date: {getDate}</Text>
                             </View>
                         </View>
                     </View>
 
                     <View>
-                        <Text style={[{ fontSize: 10}, {marginLeft: 45, marginBottom: 6 }]}>Customer: {customerDetails.customer}      Phone: {customerDetails.phone}      Address: {customerDetails.address}     salesman: {displayName ? displayName : 'N/A'}</Text>
+                        <Text style={[{ fontSize: 10 }, { marginLeft: 45, marginBottom: 6, fontFamily: 'Tiro Bangla, serif' }]}>Customer: {customerDetails.customer}      Phone: {customerDetails.phone}      Address: {customerDetails.address}     salesman: {displayName ? displayName : 'N/A'}</Text>
                     </View>
 
                     <View style={styles.tableRow}>
-                        <View style={{ width: "10%", borderStyle: "solid", borderWidth: 1 }}>
-                            <Text style={styles.tableCell}>SL NO.</Text>
+                        <View style={{ width: "5%", borderStyle: "solid", borderWidth: 1 }}>
+                            <Text style={styles.tableCell}>SL</Text>
                         </View>
                         <View style={styles.tableCol}>
-                            <Text style={styles.tableCell}>ITEM</Text>
+                            <Text style={styles.tableCell}>পণ্য</Text>
                         </View>
                         <View style={styles.tableCol}>
-                            <Text style={styles.tableCell}>QUANTITY</Text>
+                            <Text style={styles.tableCell}>পরিমাণ</Text>
                         </View>
                         <View style={styles.tableCol}>
-                            <Text style={styles.tableCell}>PRICE</Text>
+                            <Text style={styles.tableCell}>একক মূল্য</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>মূল্য</Text>
                         </View>
                     </View>
 
                     {newData.map((v, idx) => {
                         return (<View style={styles.tableRow} key={idx}>
-                            <View style={{ width: "10%", borderStyle: "solid", borderWidth: 1 }}>
+                            <View style={{ width: "5%", borderStyle: "solid", borderWidth: 1 }}>
                                 <Text style={styles.tableCell}>{idx + 1}</Text>
                             </View>
                             <View style={styles.tableCol}>
                                 <Text style={styles.tableCell}>{v.productName}</Text>
                             </View>
                             <View style={styles.tableCol}>
-                                <Text style={styles.tableCell}>{v.quantity} {v.unit}</Text>
+                                {
+                                    v?.qu?.map((vc, idx) => <Text style={styles.tableCell}>{vc?.qty.toString()} {vc?.unit.toString()}</Text>)
+                                }
                             </View>
                             <View style={styles.tableCol}>
-                                <Text style={styles.tableCell}>{v.totalPrice}</Text>
+                                {
+                                    v?.qu?.map((vc, idx) => <Text style={styles.tableCell}>{Number(vc.price) / Number(vc.qty)}</Text>)
+                                }
+                            </View>
+                            <View style={styles.tableCol}>
+                                {
+                                    v?.qu?.map((vc, idx) => <Text style={styles.tableCell}>{vc?.price.toString()}</Text>)
+                                }
                             </View>
                         </View>)
                     })}
 
                     <View style={{ width: "auto", marginLeft: 45 }}>
                         <View style={{ width: '92%', borderStyle: "solid", borderWidth: 1, paddingRight: 60, height: 60, display: 'flex', justifyContent: 'center' }}>
-                            <Text style={{ textAlign: 'right', fontSize: 10 }}>Total Price:   {total}</Text>
+                            <Text style={{ textAlign: 'right', fontSize: 10, fontFamily: 'Tiro Bangla, serif' }}>মোট: {newData.map((v, i) => v.qu.map((vc, id) => vc.price).reduce((a, b) => a + b, 0)).reduce((x, y) => x + y, 0).toString()}</Text>
                         </View>
                     </View>
                     <View>
-                        <Text style={{ textAlign: 'right', fontSize: 10, marginRight: 50, marginTop: 6 }}>{courier && "Courier"} Paid: {total - due} Due: {due}</Text>
+                        <Text style={{ textAlign: 'right', fontSize: 10, marginRight: 50, marginTop: 6 }}> Paid: {newData?.map((v, i) => v?.qu?.map((vc, id) => vc.price).reduce((a, b) => a + b, 0)).reduce((x, y) => x + y, 0) - due} Due: {due}</Text>
+                        <Text style={{ textAlign: 'right', fontSize: 10, marginRight: 50, marginTop: 6 }}>{courier && 'Courier Service: ' + courierData}</Text>
                     </View>
 
                     <View>
@@ -182,6 +215,12 @@ export const MyDocument = ({ newData, due, customerDetails, displayName, courier
                             fontSize: 10, marginTop: 60, marginLeft: 45, borderWidth: 1, borderStyle: 'solid', width: '18%', textAlign: 'center',
                             paddingTop: 4, borderBottomWidth: 0, borderLeftWidth: 0, borderRightWidth: 0
                         }}>Customer Signeture</Text>
+                    </View>
+                    <View>
+                        <Text style={{
+                            fontSize: 10, marginTop: 60, marginLeft: 45, borderWidth: 1, borderStyle: 'solid', width: '85%', textAlign: 'center',
+                            paddingTop: 4, fontFamily: 'Tiro Bangla, serif',
+                        }}>{"বি:দ্র: ভুল ত্রুটি সংশোধন যোগ্য। বিক্রি কৃত পণ্য শর্ত সাপেক্ষে ফেরত নেওয়া হয়]]"}</Text>
                     </View>
                 </View>
             </Page>

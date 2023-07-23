@@ -1,37 +1,48 @@
 import React from 'react';
-import ReactPDF, { Page, Text, View, Document, StyleSheet, PDFDownloadLink, PDFViewer, Image } from '@react-pdf/renderer';
+import ReactPDF, { Page, Text, View, Document, StyleSheet, PDFDownloadLink, PDFViewer, Image, Font } from '@react-pdf/renderer';
 
 type Props = {
     history: {
-        address: string,
-        courier: boolean
-        customerName: string
-        date: string
-        due: number,
-        phone: string,
-        products: {
-            productId: string,
+        _id:string
+        products: [{
             productName: string,
-            quantity: number,
-            totalPrice: number
-            unit: string,
-            __v: number,
+            qu: [{
+                unit: string,
+                qty: number,
+                price: number
+            }],
+            uid: string,
             _id: string
-        }[],
-        sellerEmail: string,
-        sellerName?: string | null
-        sellerUID: string
+        }],
+        date: string,
+        customerName: string,
+        phone: string,
+        address: string,
         totalPrice: number,
-        __v: number,
-        _id: string
+        due: number,
+        courier: boolean,
+        courierData: string,
+        sellerUID: string,
+        sellerName: string,
+        sellerEmail: string,
+        time: number,
     }[],
     inx: number
 }
+
+Font.register({
+    family: 'Tiro Bangla, serif',
+    src: 'https://cdn.jsdelivr.net/gh/Ahsan-Sayeed/banglaFont@d18e50db13819bccaeb2c47081773953fee0abfa/unicode.ttf'
+    //   'https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@01ff0283e4f36e159ffbf744b36e16ef742da6d8/Subset/SpoqaHanSans/SpoqaHanSansLight.ttf',
+});
 
 const styles = StyleSheet.create({
     // body:{
     //     marginRight:60
     // },
+    korean: {
+        fontFamily: 'Tiro Bangla, serif',
+    },
     table: {
         // display: "table",
         width: "auto",
@@ -48,7 +59,7 @@ const styles = StyleSheet.create({
 
     },
     tableCol: {
-        width: "25%",
+        width: "20%",
         borderStyle: "solid",
         borderWidth: 1,
         // borderLeftWidth: 0,
@@ -60,10 +71,13 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginBottom: 5,
         fontSize: 10,
+        fontFamily: 'Tiro Bangla, serif',
     }
 });
 
 const PDFdrive = ({ history, inx }: Props) => {
+    const data = history[inx];
+    
     return (
         <Document>
             <Page>
@@ -84,55 +98,67 @@ const PDFdrive = ({ history, inx }: Props) => {
                             {/* <Text style={{ fontSize: 10 }}>Invoive/Bill</Text> */}
                             <View style={{ borderWidth: 1, borderStyle: 'solid' }}>
                                 {/* <Text style={{ fontSize: 10, borderWidth: 1, borderStyle: 'solid', padding:2 }}>NO: 857461654</Text> */}
-                                <Text style={{ fontSize: 10, borderWidth: 1, borderStyle: 'solid', padding: 2 }}>Date: {history[inx]?.date}</Text>
+                                <Text style={{ fontSize: 10, borderWidth: 1, borderStyle: 'solid', padding: 2 }}>Date: {"history?.getDate"}</Text>
                             </View>
                         </View>
                     </View>
 
                     <View>
-                        <Text style={[{ fontSize: 10 }, { marginLeft: 45, marginBottom: 6 }]}>Customer: {history[inx]?.customerName}      Phone: {history[inx]?.phone}      Address: {history[inx]?.address}     salesman: {history[inx]?.sellerName == ''?history[inx]?.sellerName:"N/A"}</Text>
+                        <Text style={[{ fontSize: 10 }, { marginLeft: 45, marginBottom: 6, fontFamily: 'Tiro Bangla, serif' }]}>Customer: {data?.customerName}      Phone: {data?.phone}      Address: {data?.address}     salesman: {data?.sellerName ? data?.sellerName : 'N/A'}</Text>
                     </View>
 
                     <View style={styles.tableRow}>
-                        <View style={{ width: "10%", borderStyle: "solid", borderWidth: 1 }}>
-                            <Text style={styles.tableCell}>SL NO.</Text>
+                        <View style={{ width: "5%", borderStyle: "solid", borderWidth: 1 }}>
+                            <Text style={styles.tableCell}>SL</Text>
                         </View>
                         <View style={styles.tableCol}>
-                            <Text style={styles.tableCell}>ITEM</Text>
+                            <Text style={styles.tableCell}>পণ্য</Text>
                         </View>
                         <View style={styles.tableCol}>
-                            <Text style={styles.tableCell}>QUANTITY</Text>
+                            <Text style={styles.tableCell}>পরিমাণ</Text>
                         </View>
                         <View style={styles.tableCol}>
-                            <Text style={styles.tableCell}>PRICE</Text>
+                            <Text style={styles.tableCell}>একক মূল্য</Text>
+                        </View>
+                        <View style={styles.tableCol}>
+                            <Text style={styles.tableCell}>মূল্য</Text>
                         </View>
                     </View>
 
-                    {history[inx]?.products?.map((v, idx) => {
-                        // console.log(v)
+                    {data?.products?.map((v, idx) => {
                         return (<View style={styles.tableRow} key={idx}>
-                            <View style={{ width: "10%", borderStyle: "solid", borderWidth: 1 }}>
+                            <View style={{ width: "5%", borderStyle: "solid", borderWidth: 1 }}>
                                 <Text style={styles.tableCell}>{idx + 1}</Text>
                             </View>
                             <View style={styles.tableCol}>
                                 <Text style={styles.tableCell}>{v?.productName}</Text>
                             </View>
                             <View style={styles.tableCol}>
-                                <Text style={styles.tableCell}>{v?.quantity} {v?.unit}</Text>
+                                {
+                                    v?.qu?.map((vc, idx) => <Text style={styles.tableCell}>{vc?.qty.toString()} {vc?.unit.toString()}</Text>)
+                                }
                             </View>
                             <View style={styles.tableCol}>
-                                <Text style={styles.tableCell}>{v?.totalPrice}</Text>
+                                {
+                                    v?.qu?.map((vc, idx) => <Text style={styles.tableCell}>{Number(vc.price) / Number(vc.qty)}</Text>)
+                                }
+                            </View>
+                            <View style={styles.tableCol}>
+                                 {
+                                    v?.qu?.map((vc, idx) => <Text style={styles.tableCell}>{vc?.price.toString()}</Text>)
+                                }
                             </View>
                         </View>)
                     })}
 
                     <View style={{ width: "auto", marginLeft: 45 }}>
                         <View style={{ width: '92%', borderStyle: "solid", borderWidth: 1, paddingRight: 60, height: 60, display: 'flex', justifyContent: 'center' }}>
-                            <Text style={{ textAlign: 'right', fontSize: 10 }}>Total Price:   {history[inx]?.totalPrice}</Text>
+                            <Text style={{ textAlign: 'right', fontSize: 10, fontFamily: 'Tiro Bangla, serif' }}>মোট: {data?.totalPrice}</Text>
                         </View>
                     </View>
                     <View>
-                        <Text style={{ textAlign: 'right', fontSize: 10, marginRight: 50, marginTop: 6 }}>{ "Courier"} Paid: {history[inx]?.totalPrice-history[inx]?.due} Due: {history[inx]?.due}</Text>
+                        <Text style={{ textAlign: 'right', fontSize: 10, marginRight: 50, marginTop: 6 }}> Paid: {data?.totalPrice-data?.due} Due: {data?.due}</Text>
+                        <Text style={{ textAlign: 'right', fontSize: 10, marginRight: 50, marginTop: 6 }}>{data?.courier && 'Courier Service: ' + data?.courierData}</Text>
                     </View>
 
                     <View>
@@ -141,10 +167,16 @@ const PDFdrive = ({ history, inx }: Props) => {
                             paddingTop: 4, borderBottomWidth: 0, borderLeftWidth: 0, borderRightWidth: 0
                         }}>Customer Signeture</Text>
                     </View>
+                    <View>
+                        <Text style={{
+                            fontSize: 10, marginTop: 60, marginLeft: 45, borderWidth: 1, borderStyle: 'solid', width: '85%', textAlign: 'center',
+                            paddingTop: 4, fontFamily: 'Tiro Bangla, serif',
+                        }}>{"বি:দ্র: ভুল ত্রুটি সংশোধন যোগ্য। বিক্রি কৃত পণ্য শর্ত সাপেক্ষে ফেরত নেওয়া হয়]]"}</Text>
+                    </View>
                 </View>
             </Page>
         </Document>
     )
 }
 
-export default PDFdrive
+export default PDFdrive;
