@@ -98,7 +98,7 @@ const PDFdrive = ({ history, inx }: Props) => {
                             {/* <Text style={{ fontSize: 10 }}>Invoive/Bill</Text> */}
                             <View style={{ borderWidth: 1, borderStyle: 'solid' }}>
                                 {/* <Text style={{ fontSize: 10, borderWidth: 1, borderStyle: 'solid', padding:2 }}>NO: 857461654</Text> */}
-                                <Text style={{ fontSize: 10, borderWidth: 1, borderStyle: 'solid', padding: 2 }}>Date: {"history?.getDate"}</Text>
+                                <Text style={{ fontSize: 10, borderWidth: 1, borderStyle: 'solid', padding: 2 }}>Date: {data?.date}</Text>
                             </View>
                         </View>
                     </View>
