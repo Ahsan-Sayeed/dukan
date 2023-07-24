@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import StockTable from '../StockTable/StockTable'
+import StockTable from './StockTable/StockTable'
 import StockSearch from './StockSearch/StockSearch'
 
 type Props = {}

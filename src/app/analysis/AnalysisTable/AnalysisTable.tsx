@@ -68,17 +68,14 @@ const AnalysisTable = (props: Props) => {
     // });
 
     useEffect(() => {
-        getAllData(search)
-            .then(({ data }) => {
-                setRe((prev) => prev + 1)
-                return setData(data);
-            })
+        fetch(`${url}stock?name=${search}`)
+            .then((e) => e.json())
+            .then(e => setData(e))
             .catch(err => {
-                setRe((prev) => prev + 1)
+                alert('Something went wrong, Contact developer')
             })
 
-            
-            axios.get(`${url}courier`)
+        axios.get(`${url}courier`)
             .then(({ data }) => {
                 setRe((prev) => prev + 1)
                 return setCourierData(data);
@@ -124,34 +121,34 @@ const AnalysisTable = (props: Props) => {
     // if(query.isLoading) return <Loading/>
 
     //courier service 
-    const [courier,setCourier] = useState<string>('');
-    const [courierData,setCourierData] = useState<{_id:string,courier:string}[]>([{_id:'',courier:''}]);
-    const handleUpdateCourier = (e: React.FormEvent<HTMLFormElement>) =>{
+    const [courier, setCourier] = useState<string>('');
+    const [courierData, setCourierData] = useState<{ _id: string, courier: string }[]>([{ _id: '', courier: '' }]);
+    const handleUpdateCourier = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         fetch(`${url}courier`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({courier})
+            body: JSON.stringify({ courier })
         })
-        .then(e => {
-            if (e.status === 200) {
-                //refetch
-                setRe(() => refetch + 1);
-            }
-        })
-        .catch(err => {
-            alert('Something went wrong, Contact developer')
-        })
+            .then(e => {
+                if (e.status === 200) {
+                    //refetch
+                    setRe(() => refetch + 1);
+                }
+            })
+            .catch(err => {
+                alert('Something went wrong, Contact developer')
+            })
         setCourier('')
     }
 
-    const handleDeleteCourier = async (id:string) =>{
-       const result = await axios.delete(`${url}courier/${id}`);
-       if(result.status == 200){
-        setRe(refetch+1);
-       }
+    const handleDeleteCourier = async (id: string) => {
+        const result = await axios.delete(`${url}courier/${id}`);
+        if (result.status == 200) {
+            setRe(refetch + 1);
+        }
     }
 
     return (
@@ -163,7 +160,7 @@ const AnalysisTable = (props: Props) => {
                 <div className='my-5 px-5 text-xs mx-1'>
                     <form onSubmit={handleUpdateCourier} className='inline-block'>
                         <label>Courier Service:
-                            <input type="text" placeholder='Type here...' value={courier} className='bg-transparent' onChange={(e)=>setCourier(e.target.value)}/>
+                            <input type="text" placeholder='Type here...' value={courier} className='bg-transparent' onChange={(e) => setCourier(e.target.value)} />
                         </label>
                     </form>
                     <label className='mx-1 inline-block'>
@@ -179,7 +176,7 @@ const AnalysisTable = (props: Props) => {
                 <div className='text-xs mx-2'>
                     {courierData?.map((v, i) => <div className='border shadow rounded-xl inline-block mx-1 my-1 bg-[#ddd6fe]' key={i}>
                         <span className='mx-2'>{v?.courier}</span>
-                        <button className='me-2 hover:text-red-500 hover:font-bold' onClick={()=>handleDeleteCourier(v?._id)}>✕</button>
+                        <button className='me-2 hover:text-red-500 hover:font-bold' onClick={() => handleDeleteCourier(v?._id)}>✕</button>
                     </div>)}
                 </div>
             </div>

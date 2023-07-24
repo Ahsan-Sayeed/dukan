@@ -174,11 +174,7 @@ const Sheet = (props: Props) => {
                 if (e.status === 200) {
                     //refetch setNewData
                     ///====>>>>
-                    setState({});
-                    setUnits([]);
-                    setProductName('');
-                    setDisable(!productDisable);
-                    setSelectUnits([]);
+                    reset()
                     setRe(() => refetch + 1);
                     // console.log("ok")
                 }
@@ -264,7 +260,6 @@ const Sheet = (props: Props) => {
         setSelectUnits([]);
         setRe(() => refetch + 1);
     }
-
 
     return (
         <div className="overflow-x-auto min-w-screen border rounded-xl ms-5 bg-base-100">
@@ -368,7 +363,7 @@ const Sheet = (props: Props) => {
 
                                         <select
                                             name="units" id="pet-select" className='block border mx-auto' onChange={getItemsDetails}>
-                                            <option selected disabled>select one</option>
+                                            <option selected={units?.length!==0} disabled>select one</option>
                                             {units?.map((v, idx) => <option key={idx} value={v}>{v}</option>)}
                                         </select>
                                     </td>
