@@ -377,7 +377,7 @@ const Sheet = (props: Props) => {
                                     <td>
                                         {
                                             Object.entries(state).map((v, i) => {
-                                                return Number((data?.find((v, i) => v?.name === productName))?.sold.find((va, idx) => va?.unit === v[0])?.singlePrice) * Number(v[1])
+                                                return (Number((data?.find((v, i) => v?.name === productName))?.sold.find((va, idx) => va?.unit === v[0])?.singlePrice) * Number(v[1])).toFixed(2)
                                             }).map((v, i) => <p key={i}>৳ {v}</p>)
                                         }
 

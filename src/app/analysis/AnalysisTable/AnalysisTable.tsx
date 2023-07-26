@@ -203,7 +203,7 @@ const AnalysisTable = (props: Props) => {
                                     {edit ?
                                         v?.sold?.map((vx, i) => vx._id === selectItem.id && idx === selectItem.idx ?
                                             <form onSubmit={(e) => handleAddPrice(e, v?._id, vx?._id)}>
-                                                <input min={0} type="number" placeholder={`প্রতি ${v?.unit}র মূল্য`} className={`inline border rounded w-28 py-1 text-center`}
+                                                <input type="number" step="any" placeholder={`প্রতি ${v?.unit}র মূল্য`} className={`inline border rounded w-28 py-1 text-center`}
                                                     name="sellingPrice" id="" defaultValue={vx?.singlePrice} onChange={(e) => setPrice(Number(e.target.value))} required />
                                                 {
                                                     price !== 0
