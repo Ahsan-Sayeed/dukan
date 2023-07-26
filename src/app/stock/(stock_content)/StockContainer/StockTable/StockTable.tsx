@@ -4,6 +4,8 @@ import { url } from '@/config/backendConfig'
 import DetailsTable from './components/DetailsTable/DetailsTable'
 import ProductName from './components/ProductName/ProductName'
 import UnitsItem from './components/UnitsItem/UnitsItem'
+import SoldItem from './components/SoldItems/SoldItem'
+import AvailableItems from './components/AvailableItems/AvailableItems'
 
 type Props = {}
 
@@ -38,7 +40,7 @@ const icons = {
 
 const StockTable = (props: Props) => {
     const date = new Date();
-    const defaultUnits = ["পিছ", "পাতা", "প্যাকেট", "কেজি", "কার্টুন", "বস্তা", "বান্ডেল", "ডজন", "মি.লি", "লিটার"]
+    const defaultUnits = ["পিছ", "পাতা", "প্যাকেট", "কেজি", "কার্টুন", "বস্তা", "বান্ডেল", "ডজন", "বোতল"]
     const [selectUnits, setSelectUnits] = useState<string[]>([])
     const [productName, setProductName] = useState<string>('')
 
@@ -213,15 +215,12 @@ const StockTable = (props: Props) => {
                                     </td>
 
                                     <td>
-                                        {/* {
-                                            v?.sold?.map((x, id) => {
-                                                return <p key={id}> {v?.details.filter((va, idx) => va.unit === x.unit).map((vb, idx) => vb.quantity).reduce((a, b) => a + b, 0) - x.qty} {x.unit}</p>
-                                            })
-                                        } */}
+                                      <AvailableItems productName={v.name}/>
                                     </td>
 
                                     <td>
-                                        {v?.sold?.map((v, i) => <p><span style={{ color: 'red', fontWeight: 'bold' }}>{v?.qty}</span> {v?.unit} </p>)}
+                                        {/* {v?.sold?.map((v, i) => <p><span style={{ color: 'red', fontWeight: 'bold' }}>{v?.qty}</span> {v?.unit} </p>)} */}
+                                        <SoldItem productName={v.name}/>
                                     </td>
                                     
                                     {

@@ -63,12 +63,12 @@ const HistoryTable = ({ history }: Props) => {
                                         <th className='bg-neutral text-white w-fit'>{idx + 1}</th>
                                         <td>{v?.customerName}</td>
                                         <td>{v?.phone}</td>
-                                        <td>{v?.due}</td>
+                                        <td className='text-red-500 font-bold'>{v?.due}</td>
                                         <td>{v?.totalPrice - v?.due}</td>
                                         <td>
                                             {
                                                 v?.courier?
-                                                <span className='text-red-500 font-bold text-center'>{v?.courierData===undefined?'N/A':((v?.courierData)?.split('').slice(0,5).join('')+"..")}</span>
+                                                <span className='text-red-500 font-bold text-center'>{v?.courierData===undefined?'N/A':((v?.courierData)?.split('').slice(0,8).join('')+"..")}</span>
                                                 :
                                                 <span className='text-red-500 font-bold text-center'>N/A</span>
                                             }

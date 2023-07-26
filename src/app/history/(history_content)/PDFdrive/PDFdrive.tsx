@@ -158,7 +158,7 @@ const PDFdrive = ({ history, inx }: Props) => {
                     </View>
                     <View>
                         <Text style={{ textAlign: 'right', fontSize: 10, marginRight: 50, marginTop: 6 }}> Paid: {data?.totalPrice-data?.due} Due: {data?.due}</Text>
-                        <Text style={{ textAlign: 'right', fontSize: 10, marginRight: 50, marginTop: 6, fontFamily: 'Tiro Bangla, serif'}}>{data?.courier && 'Courier Service: ' + data?.courierData}</Text>
+                        <Text style={{ textAlign: 'right', fontSize: 10, marginRight: 50, marginTop: 6, fontFamily: 'Tiro Bangla, serif'}}>{data?.courier && 'Courier Service: ' + data?.courierData+"]"}</Text>
                     </View>
 
                     <View>
