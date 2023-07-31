@@ -59,7 +59,7 @@ const DetailsTable = ({ setRe, refetch, v }: Props) => {
                     }
                 })
                 .catch(err => {
-                    alert('Something went wrong, Contact developer')
+                    //something went wrong('Something went wrong, Contact developer')
                 })
         }
 
@@ -100,7 +100,7 @@ const DetailsTable = ({ setRe, refetch, v }: Props) => {
                 }
             })
             .catch(err => {
-                alert('Something went wrong, Contact developer')
+                //something went wrong('Something went wrong, Contact developer')
             })
     }
 
@@ -121,7 +121,7 @@ const DetailsTable = ({ setRe, refetch, v }: Props) => {
                 }
             })
             .catch(err => {
-                alert('Something went wrong, Contact developer')
+                //something went wrong('Something went wrong, Contact developer')
             })
     }
 

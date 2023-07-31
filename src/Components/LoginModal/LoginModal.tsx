@@ -50,11 +50,11 @@ const LoginModal = (props: Props) => {
                             .then(e => {
                                 if (e.status === 200) {
                                     //refetch
-                                    alert('succesfully seller account created');
+                                    //something went wrong('succesfully seller account created');
                                 }
                             })
                             .catch(err => {
-                                alert('Something went wrong, Contact developer')
+                                //something went wrong('Something went wrong, Contact developer')
                             })
                     }
                     else {

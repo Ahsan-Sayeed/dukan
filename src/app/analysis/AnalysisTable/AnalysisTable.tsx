@@ -72,7 +72,7 @@ const AnalysisTable = (props: Props) => {
             .then((e) => e.json())
             .then(e => setData(e))
             .catch(err => {
-                alert('Something went wrong, Contact developer')
+                //something went wrong('Something went wrong, Contact developer')
             })
 
         axios.get(`${url}courier`)
@@ -110,7 +110,7 @@ const AnalysisTable = (props: Props) => {
                 }
             })
             .catch(err => {
-                alert('Something went wrong, Contact developer')
+                //something went wrong('Something went wrong, Contact developer')
             })
 
         // console.log(e.currentTarget?.sellingPrice.value)
@@ -139,7 +139,7 @@ const AnalysisTable = (props: Props) => {
                 }
             })
             .catch(err => {
-                alert('Something went wrong, Contact developer')
+                //something went wrong('Something went wrong, Contact developer')
             })
         setCourier('')
     }

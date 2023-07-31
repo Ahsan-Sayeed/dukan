@@ -10,7 +10,7 @@ const spreadsheet = (props: Props) => {
     <div>
       <Drawer>
         <div className='w-full'>
-          <h1 className='text-4xl subpixel-antialiased font-sans font-thin m-5'>Spreadsheet</h1>
+          <h1 className='text-4xl subpixel-antialiased font-sans font-thin m-5'>Cash Memo</h1>
           <Sheet/>
         </div>
       </Drawer>

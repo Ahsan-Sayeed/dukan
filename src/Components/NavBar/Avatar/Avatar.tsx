@@ -18,7 +18,7 @@ const Avatar = (props: Props) => {
             console.log('log out success');
         })
             .catch((error: string) => {
-                alert('something went wrong');
+                //something went wrong('something went wrong');
             })
     }
 

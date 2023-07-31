@@ -14,9 +14,9 @@ const SoldItem = ({productName}: Props) => {
             .then((e) => e.json())
             .then(e => setData(e))
             .catch(err => {
-                alert('Something went wrong, Contact developer')
+                //something went wrong('Something went wrong, Contact developer')
             })
-    }, [])
+    }, [productName])
     
 
 

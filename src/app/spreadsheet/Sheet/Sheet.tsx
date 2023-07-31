@@ -118,21 +118,21 @@ const Sheet = (props: Props) => {
             .then((e) => e.json())
             .then(e => setData(e))
             .catch(err => {
-                alert('Something went wrong, Contact developer')
+                //something went wrong('Something went wrong, Contact developer')
             })
 
         fetch(`${url}spreadsheet?uid=${users?.uid}`)
             .then((e) => e.json())
             .then(e => setNewData(e))
             .catch(err => {
-                alert('Something went wrong, Contact developer')
+                //something went wrong('Something went wrong, Contact developer')
             })
 
         fetch(`${url}courier`)
             .then((e) => e.json())
             .then(e => setCourierData(e))
             .catch(err => {
-                alert('Something went wrong, Contact developer')
+                //something went wrong('Something went wrong, Contact developer')
             })
 
         // console.log(newData);
@@ -180,7 +180,7 @@ const Sheet = (props: Props) => {
                 }
             })
             .catch(err => {
-                alert('Something went wrong, Contact developer')
+                //something went wrong('Something went wrong, Contact developer')
             })
     }
 
@@ -196,7 +196,7 @@ const Sheet = (props: Props) => {
                 }
             })
             .catch(err => {
-                alert('Something went wrong, Contact developer')
+                //something went wrong('Something went wrong, Contact developer')
             })
     }
 
@@ -236,18 +236,18 @@ const Sheet = (props: Props) => {
                         .then(e => {
                             if (e.status === 200) {
                                 //refetch
-                                alert('saved to database');
+                                //something went wrong('saved to database');
                                 reset();
                                 setRe(() => refetch + 1);
                             }
                         })
                         .catch(err => {
-                            alert('Something went wrong, Contact developer')
+                            //something went wrong('Something went wrong, Contact developer')
                         })
                 }
             })
             .catch(err => {
-                alert('Something went wrong, Contact developer')
+                //something went wrong('Something went wrong, Contact developer')
             })
 
     }

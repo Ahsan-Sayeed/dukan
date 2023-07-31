@@ -14,7 +14,7 @@ const HistoryContainer = (props: Props) => {
       .then((e) => e.json())
       .then(e => setHistory(e))
       .catch(err => {
-        alert('Something went wrong, Contact developer')
+        //something went wrong('Something went wrong, Contact developer')
       })
   }, [data])
 

@@ -54,7 +54,7 @@ const StockTable = (props: Props) => {
             .then((e) => e.json())
             .then(e => setData(e))
             .catch(err => {
-                alert('Something went wrong, Contact developer')
+                //something went wrong('Something went wrong, Contact developer')
             })
     }, [refetch, search]);
 
@@ -94,11 +94,13 @@ const StockTable = (props: Props) => {
                 .then(e => {
                     if (e.status === 200) {
                         //refetch
+                        alert("Record Added");
+                        setSearch('');
                         setRe(() => refetch + 1);
                     }
                 })
                 .catch(err => {
-                    alert('Something went wrong, Contact developer')
+                    //something went wrong('Something went wrong, Contact developer')
                 })
 
         }
@@ -138,7 +140,7 @@ const StockTable = (props: Props) => {
                     }
                 })
                 .catch(err => {
-                    alert('Something went wrong, Contact developer')
+                    //something went wrong('Something went wrong, Contact developer')
                 })
         }
     }
@@ -154,11 +156,13 @@ const StockTable = (props: Props) => {
                 if (e.status === 200) {
                     //refetch
                     resetSelection();
+                    alert("Record deleted");
                     setRe(() => refetch + 1);
+                    setSearch('');
                 }
             })
             .catch(err => {
-                alert('Something went wrong, Contact developer')
+                //something went wrong('Something went wrong, Contact developer')
             })
     }
 
@@ -215,7 +219,7 @@ const StockTable = (props: Props) => {
                                     </td>
 
                                     <td>
-                                      <AvailableItems productName={v.name}/>
+                                      <AvailableItems productName={v.name} setRe={setRe} refetch={refetch}/>
                                     </td>
 
                                     <td>
