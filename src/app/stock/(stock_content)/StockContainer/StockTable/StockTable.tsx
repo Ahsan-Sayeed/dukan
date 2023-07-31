@@ -196,6 +196,7 @@ const StockTable = (props: Props) => {
                                             idx={idx}
                                             selectRecord={selectRecord}
                                             handleProductName={handleProductName}
+                                            setProductName={setProductName}
                                         />
                                     </td>
                                     <td>
@@ -203,6 +204,7 @@ const StockTable = (props: Props) => {
                                         editRecord={editRecord}
                                         v={v}
                                         selectUnits={selectUnits}
+                                        setSelectUnits={setSelectUnits}
                                         selectRecord={selectRecord}
                                         handleSelection={handleSelection}
                                         removeIems={removeIems}

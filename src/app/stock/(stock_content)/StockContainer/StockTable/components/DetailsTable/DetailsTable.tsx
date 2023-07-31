@@ -69,39 +69,48 @@ const DetailsTable = ({ setRe, refetch, v }: Props) => {
     const [editDetails, setEditDetails] = useState<boolean>(false);
     const [selectDtl, setSelectDtl] = useState<{ _id: string | undefined, idx: number | undefined }>({ _id: '', idx: 0 })
 
-    const selectionDetails = (idx: number | undefined, _id: string | undefined) => {
+    const selectionDetails = (idx: number | undefined, _id: string | undefined,itemId:string) => {
         setEditDetails(!editDetails)
         setSelectDtl({ _id, idx });
+
+        setQty(Number(v?.details?.find((vx,ix)=>vx._id===itemId)?.quantity));
+        setPrice(Number(v?.details?.find((vx,ix)=>vx._id===itemId)?.perUnitPrice));
+        setUnit(v?.details?.find((vx,ix)=>vx._id===itemId)?.unit+'');
     }
 
     const handleUpdateDetails = (id: string | undefined) => {
         setEditDetails(!editDetails);
         const dateModify = getDate.split('-');
+        
 
-        fetch(`${url}updatestockdetails/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(
-                {
-                    date: [dateModify[1], dateModify[2], dateModify[0]].join('/'),
-                    unit: unit,
-                    quantity: qty,
-                    perUnitPrice: price,
-                }
-            )
-        })
-            .then(e => {
-                if (e.status === 200) {
-                    //refetch
-                    console.log(e);
-                    setRe(() => refetch + 1);
-                }
+        if (price !== 0 && qty !== 0 && unit !== "") {
+            fetch(`${url}updatestockdetails/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    {
+                        date: [dateModify[1], dateModify[2], dateModify[0]].join('/'),
+                        unit: unit,
+                        quantity: qty,
+                        perUnitPrice: price,
+                    }
+                )
             })
-            .catch(err => {
-                //something went wrong('Something went wrong, Contact developer')
-            })
+                .then(e => {
+                    if (e.status === 200) {
+                        //refetch
+                        setQty(0);
+                        setPrice(0);
+                        setUnit('');
+                        setRe(() => refetch + 1);
+                    }
+                })
+                .catch(err => {
+                    //something went wrong('Something went wrong, Contact developer')
+                })
+        }
     }
 
     //details history deletation
@@ -239,11 +248,11 @@ const DetailsTable = ({ setRe, refetch, v }: Props) => {
                                     }
 
                                     {!editDetails ?
-                                        <button className='px-2 hover:text-red onHoverRed' onClick={() => selectionDetails(Number(idx), v?._id?.toString())}>{icons.edit}</button>
+                                        <button className='px-2 hover:text-red onHoverRed' onClick={() => selectionDetails(Number(idx), v?._id?.toString(),item._id.toString())}>{icons.edit}</button>
                                         :
                                         <div className={`flex`} style={{ visibility: selectDtl._id === v._id && selectDtl.idx === idx ? 'visible' : 'hidden' }}>
                                             <button className='px-2 mx-0 bg-[#22c55e] text-white hover:bg-neutral rounded' onClick={() => handleUpdateDetails(item?._id)}>✓</button>
-                                            <button className='px-2 mx-1 bg-[#b91c1c] text-white hover:bg-neutral rounded' onClick={() => selectionDetails(Number(0), '')}>✕</button>
+                                            <button className='px-2 mx-1 bg-[#b91c1c] text-white hover:bg-neutral rounded' onClick={() => selectionDetails(Number(0), '','')}>✕</button>
                                             <button className='px-2 mx-0 bg-[#f87171] text-white hover:bg-neutral rounded' onClick={() => detailsDelete(v?._id, item?._id)}>{icons.delete}</button>
                                         </div>
                                     }

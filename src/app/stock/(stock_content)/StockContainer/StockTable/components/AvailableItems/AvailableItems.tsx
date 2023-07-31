@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 type Props = {
     productName: string,
-    setRe:(args:number)=>void,
+    setRe:(args:any)=>void,
     refetch:number
 }
 
@@ -14,7 +14,7 @@ const AvailableItems = ({ productName,setRe,refetch }: Props) => {
         fetch(`${url}history/available?name=${productName}`)
             .then((e) => e.json())
             .then(e => {
-                setRe(refetch+1);
+                setRe(()=>refetch+1);
                 return setData(e);
             })
             .catch(err => {
