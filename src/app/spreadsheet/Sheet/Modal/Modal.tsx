@@ -161,7 +161,7 @@ export const MyDocument = ({ newData, due, courierData, getDate, customerDetails
                             <Text style={styles.tableCell}>SL</Text>
                         </View>
                         <View style={styles.tableCol}>
-                            <Text style={styles.tableCell}>পণ্য</Text>
+                            <Text style={styles.tableCell}>পণ্যের নাম</Text>
                         </View>
                         <View style={styles.tableCol}>
                             <Text style={styles.tableCell}>পরিমাণ</Text>
@@ -202,7 +202,7 @@ export const MyDocument = ({ newData, due, courierData, getDate, customerDetails
 
                     <View style={{ width: "auto", marginLeft: 45 }}>
                         <View style={{ width: '92%', borderStyle: "solid", borderWidth: 1, paddingRight: 60, height: 60, display: 'flex', justifyContent: 'center' }}>
-                            <Text style={{ textAlign: 'right', fontSize: 10, fontFamily: 'Tiro Bangla, serif' }}>মোট: {newData.map((v, i) => v.qu.map((vc, id) => vc.price).reduce((a, b) => a + b, 0)).reduce((x, y) => x + y, 0).toString()}</Text>
+                            <Text style={{ textAlign: 'right', fontSize: 10, fontFamily: 'Tiro Bangla, serif' }}>মোট টাকার পরিমাণ: {newData.map((v, i) => v.qu.map((vc, id) => vc.price).reduce((a, b) => a + b, 0)).reduce((x, y) => x + y, 0).toString()}</Text>
                         </View>
                     </View>
                     <View>
