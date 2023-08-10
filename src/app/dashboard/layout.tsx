@@ -15,7 +15,7 @@ export default function RootLayout({
 
   return (
         <section className={inter.className} >
-          <div>
+          <div className='bg-base-200 text-black'>
             <NavBar/>
             {children}
           </div>

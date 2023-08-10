@@ -65,12 +65,12 @@ const NavRoute = ({ showName }: Props) => {
 
     return (
         <>
-            {/* <li className={pathname === '/dashboard' ? "border rounded-lg bg-neutral text-white" : ''}>
+           {/* {isAdmin && <li className={pathname === '/dashboard' ? "border rounded-lg bg-neutral text-white" : ''}>
                 <Link href="/dashboard">{showName ? menuItems.dashboard : menuItems.dashboard[0]}</Link>
-            </li> */}
-            {/* <li className={pathname === '/users' ? "border rounded-lg bg-neutral text-white" : ''}>
+            </li>}
+            {isAdmin &&<li className={pathname === '/users' ? "border rounded-lg bg-neutral text-white" : ''}>
                 <Link href="/users">{showName ? menuItems.users : menuItems.users[0]}</Link>
-            </li> */}
+            </li>} */}
             {
                 isAdmin && <li className={pathname === '/analysis' ? "border rounded-lg bg-neutral text-white" : ''}>
                     <Link href="/analysis">{showName ? menuItems.analysis : menuItems.analysis[0]}</Link>

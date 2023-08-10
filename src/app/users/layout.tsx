@@ -1,5 +1,11 @@
 import NavBar from "@/Components/NavBar/NavBar"
 
+export const metadata = {
+  title: 'Users',
+  description: 'Momin Food Products',
+}
+
+
 export default function UsersLayout({
     children,
   }: {
@@ -7,7 +13,7 @@ export default function UsersLayout({
   }) {
   
     return (
-        <div>
+        <div className='bg-base-200 text-black'>
             <NavBar/>
             {children}
         </div>

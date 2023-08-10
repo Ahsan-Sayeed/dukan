@@ -60,7 +60,9 @@ const UserList = ({data,setUser,selectUser}: Props) => {
                 <tfoot>
                     <tr>
                         <th>Total User: <span className='text-black'>{data.length}</span></th>
-                     
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </tfoot>
             </table>

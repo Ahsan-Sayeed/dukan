@@ -5,13 +5,13 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAEqcudiW0PGF6GOkg_F4kBoxCMVWOEzfA",
-  authDomain: "project01-c6e23.firebaseapp.com",
-  projectId: "project01-c6e23",
-  storageBucket: "project01-c6e23.appspot.com",
-  messagingSenderId: "382724496649",
-  appId: "1:382724496649:web:1887967ccc22d22bd207d8"
+  apiKey: "AIzaSyCqTEDqnjaQK_qEREF-383nU3BWP1OyUUE",
+  authDomain: "mominfood-de86a.firebaseapp.com",
+  projectId: "mominfood-de86a",
+  storageBucket: "mominfood-de86a.appspot.com",
+  messagingSenderId: "263682817141",
+  appId: "1:263682817141:web:1da136729c882fbad4cc3c"
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
